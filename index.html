@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Watch Video</title>
+  <title>Magic Video Player! 🎈</title>
   <style>
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       -webkit-tap-highlight-color: transparent;
+      user-select: none;
     }
     body, html {
       width: 100%;
       height: 100%;
-      background-color: #000;
-      color: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #0f172a;
+      font-family: 'Comic Sans MS', 'Chalkboard SE', 'Comic Neue', cursive, sans-serif;
       overflow: hidden;
     }
     #video-wrapper {
@@ -35,87 +35,183 @@
       object-fit: contain;
       background: #000;
     }
-    /* Tap to play overlay */
+
+    /* Kids Fun Animated Overlay */
     #overlay {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      background: radial-gradient(circle at center, #1e1b4b 0%, #0f172a 70%, #020617 100%);
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       cursor: pointer;
       z-index: 100;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
+      transition: opacity 0.5s ease, transform 0.5s ease, visibility 0.5s ease;
+      overflow: hidden;
     }
     #overlay.hidden {
       opacity: 0;
+      transform: scale(1.1);
       visibility: hidden;
       pointer-events: none;
     }
-    .play-btn {
-      width: 86px;
-      height: 86px;
-      background: #2563eb;
+
+    /* Floating Kids Elements (Balloons & Stars) */
+    .floating-item {
+      position: absolute;
+      pointer-events: none;
+      animation: floatUp 6s infinite ease-in-out;
+    }
+    .balloon-1 { left: 10%; top: 20%; font-size: 42px; animation-duration: 4.5s; animation-delay: 0s; }
+    .balloon-2 { right: 12%; top: 25%; font-size: 38px; animation-duration: 5.2s; animation-delay: 1s; }
+    .star-1 { left: 18%; bottom: 20%; font-size: 34px; animation-duration: 3.8s; animation-delay: 0.5s; }
+    .star-2 { right: 15%; bottom: 22%; font-size: 36px; animation-duration: 4.2s; animation-delay: 1.5s; }
+    .cloud-1 { top: 8%; left: 35%; font-size: 40px; animation-duration: 6s; }
+
+    @keyframes floatUp {
+      0%, 100% { transform: translateY(0) rotate(-6deg); }
+      50% { transform: translateY(-22px) rotate(6deg); }
+    }
+
+    /* Bouncy Play Character Button */
+    .character-btn {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, #ff007f, #ff7700, #ffdd00);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 0 35px rgba(37, 99, 235, 0.6);
-      animation: pulse 2s infinite ease-in-out;
-      margin-bottom: 20px;
+      box-shadow: 0 0 35px rgba(255, 119, 0, 0.7), 0 0 60px rgba(255, 0, 127, 0.4);
+      animation: jellyWiggle 2s infinite ease-in-out;
+      border: 4px solid #ffffff;
+      margin-bottom: 25px;
     }
-    .play-btn svg {
-      width: 42px;
-      height: 42px;
+    .character-btn svg {
+      width: 55px;
+      height: 55px;
       fill: #ffffff;
-      margin-left: 6px;
+      margin-left: 8px;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.3));
     }
-    .prompt-text {
-      font-size: 1.2rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+
+    /* Cute Eyes blinking on the play button */
+    .cute-eyes {
+      position: absolute;
+      top: 18px;
+      display: flex;
+      gap: 16px;
+    }
+    .cute-eye {
+      width: 8px;
+      height: 10px;
+      background: #fff;
+      border-radius: 50%;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      animation: blink 3.5s infinite;
+    }
+
+    @keyframes blink {
+      0%, 96%, 100% { transform: scaleY(1); }
+      98% { transform: scaleY(0.1); }
+    }
+
+    @keyframes jellyWiggle {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      25% { transform: scale(1.12, 0.9) rotate(-4deg); }
+      50% { transform: scale(0.92, 1.1) rotate(4deg); }
+      75% { transform: scale(1.06, 0.96) rotate(-2deg); }
+    }
+
+    /* Bouncing Kids Text */
+    .title-banner {
+      background: linear-gradient(90deg, #ff5e62, #ff9966, #ffdd00, #00f2fe, #4facfe);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: rainbowShift 4s ease infinite;
+      font-size: 1.8rem;
+      font-weight: 900;
       text-align: center;
-      padding: 0 20px;
+      text-shadow: 0 4px 15px rgba(0,0,0,0.4);
+      margin-bottom: 10px;
+      letter-spacing: 1px;
     }
-    .sub-text {
-      font-size: 0.85rem;
-      color: rgba(255, 255, 255, 0.7);
-      margin-top: 6px;
+
+    .sub-banner {
+      font-size: 1.05rem;
+      color: #fef08a;
+      background: rgba(254, 240, 138, 0.15);
+      border: 2px dashed #fef08a;
+      padding: 8px 18px;
+      border-radius: 25px;
+      animation: pulseSub 1.8s infinite ease-in-out;
+      font-weight: 700;
     }
-    @keyframes pulse {
-      0% { transform: scale(1); box-shadow: 0 0 20px rgba(37, 99, 235, 0.5); }
-      50% { transform: scale(1.08); box-shadow: 0 0 40px rgba(37, 99, 235, 0.8); }
-      100% { transform: scale(1); box-shadow: 0 0 20px rgba(37, 99, 235, 0.5); }
+
+    @keyframes rainbowShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    @keyframes pulseSub {
+      0%, 100% { transform: scale(1); opacity: 0.9; }
+      50% { transform: scale(1.06); opacity: 1; }
+    }
+
+    /* Confetti Particle Burst Container */
+    #confetti-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 101;
     }
   </style>
 </head>
 <body>
 
   <div id="video-wrapper">
-    <div id="overlay" onclick="startPlayback()">
-      <div class="play-btn">
+    <!-- Confetti canvas for celebration on tap -->
+    <canvas id="confetti-canvas"></canvas>
+
+    <!-- Kids Tap to Play Overlay -->
+    <div id="overlay" onclick="startPlayback(event)">
+      <!-- Floating friendly decorations -->
+      <div class="floating-item balloon-1">🎈</div>
+      <div class="floating-item balloon-2">🚀</div>
+      <div class="floating-item star-1">⭐</div>
+      <div class="floating-item star-2">✨</div>
+      <div class="floating-item cloud-1">🌈</div>
+
+      <!-- Bouncing Cartoon Play Character -->
+      <div class="character-btn">
+        <div class="cute-eyes">
+          <div class="cute-eye"></div>
+          <div class="cute-eye"></div>
+        </div>
         <svg viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z"/>
         </svg>
       </div>
-      <div class="prompt-text">Tap anywhere to play</div>
-      <div class="sub-text">Opens in full screen with sound</div>
+
+      <div class="title-banner">✨ Tap to Watch! ✨</div>
+      <div class="sub-banner">🎈 Touch anywhere to start! 🍿</div>
     </div>
 
+    <!-- Media Player Container -->
     <div id="player-container" style="width:100%; height:100%;"></div>
   </div>
 
   <script>
-    // Reads URL parameters dynamically:
-    // ?v=filename.mp4  (e.g., ?v=video.mp4 or ?v=1.mp4)
-    // ?yt=YOUTUBE_ID   (e.g., ?yt=dQw4w9WgXcQ)
-    // ?drive=DRIVE_ID  (e.g., ?drive=1A2B3C4D5E6F7G8H9I)
     const urlParams = new URLSearchParams(window.location.search);
     const videoFile = urlParams.get('v') || 'video.mp4';
     const ytId = urlParams.get('yt');
@@ -123,8 +219,56 @@
 
     const overlay = document.getElementById('overlay');
     const container = document.getElementById('player-container');
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
     let ytPlayer = null;
     let html5Player = null;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    // Confetti burst on tap
+    function triggerConfetti(startX, startY) {
+      const colors = ['#ff0055', '#ff9900', '#ffea00', '#00ff66', '#00ccff', '#9933ff', '#ff00aa'];
+      const particles = [];
+      for (let i = 0; i < 40; i++) {
+        particles.push({
+          x: startX || window.innerWidth / 2,
+          y: startY || window.innerHeight / 2,
+          vx: (Math.random() - 0.5) * 12,
+          vy: (Math.random() - 0.5) * 12 - 4,
+          size: Math.random() * 8 + 4,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: 1,
+          rot: Math.random() * 360,
+          dRot: (Math.random() - 0.5) * 10
+        });
+      }
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        let alive = false;
+        particles.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.vy += 0.35; // gravity
+          p.alpha -= 0.025;
+          p.rot += p.dRot;
+          if (p.alpha > 0) {
+            alive = true;
+            ctx.save();
+            ctx.globalAlpha = p.alpha;
+            ctx.translate(p.x, p.y);
+            ctx.rotate((p.rot * Math.PI) / 180);
+            ctx.fillStyle = p.color;
+            ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+            ctx.restore();
+          }
+        });
+        if (alive) requestAnimationFrame(animate);
+      }
+      animate();
+    }
 
     function enterFullscreen(element) {
       if (element.webkitEnterFullscreen) {
@@ -165,7 +309,6 @@
       `;
       html5Player = document.getElementById('drive-video');
     } else {
-      // Local/GitHub file (default video.mp4 or ?v=...)
       const resolvedFile = videoFile.endsWith('.mp4') ? videoFile : `${videoFile}.mp4`;
       container.innerHTML = `
         <video id="local-video" playsinline webkit-playsinline controls preload="auto" style="width:100%;height:100%;">
@@ -175,29 +318,35 @@
       html5Player = document.getElementById('local-video');
     }
 
-    function startPlayback() {
+    function startPlayback(e) {
+      const x = e ? e.clientX : window.innerWidth / 2;
+      const y = e ? e.clientY : window.innerHeight / 2;
+      triggerConfetti(x, y);
+
       overlay.classList.add('hidden');
 
-      if (ytPlayer && ytPlayer.playVideo) {
-        ytPlayer.playVideo();
-        enterFullscreen(document.getElementById('video-wrapper'));
-      } else if (html5Player) {
-        html5Player.muted = false;
-        html5Player.play().then(() => {
-          enterFullscreen(html5Player);
-        }).catch(() => {
-          html5Player.muted = true;
-          html5Player.play();
-          enterFullscreen(html5Player);
-        });
-      }
+      setTimeout(() => {
+        if (ytPlayer && ytPlayer.playVideo) {
+          ytPlayer.playVideo();
+          enterFullscreen(document.getElementById('video-wrapper'));
+        } else if (html5Player) {
+          html5Player.muted = false;
+          html5Player.play().then(() => {
+            enterFullscreen(html5Player);
+          }).catch(() => {
+            html5Player.muted = true;
+            html5Player.play();
+            enterFullscreen(html5Player);
+          });
+        }
+      }, 250);
     }
 
-    // Show replay button when video finishes
     if (html5Player) {
       html5Player.addEventListener('ended', () => {
         overlay.classList.remove('hidden');
-        document.querySelector('.prompt-text').textContent = "Tap to replay";
+        document.querySelector('.title-banner').textContent = "🎉 Watch Again! 🎉";
+        document.querySelector('.sub-banner').textContent = "🎈 Tap to replay 🎈";
       });
     }
   </script>
